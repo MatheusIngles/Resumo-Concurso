@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Super Guia de Estudo — Analista TI (Desenvolvimento) — Prefeitura de Vitória</title>
+<style>
+  :root{
+    --bg:#f4f6fb; --bg2:#ffffff; --ink:#1d2433; --ink-soft:#4b5566; --muted:#7b8499;
+    --line:#e3e8f2; --line2:#d3dae8;
+    --brand:#5b4bdb; --brand2:#7c6cf0; --brand-soft:#ece9ff;
+    --teal:#0d9488; --teal-soft:#d6f5f0;
+    --amber:#b7791f; --amber-soft:#fdf2d8;
+    --rose:#d63b6a; --rose-soft:#fde3ec;
+    --green:#1f9254; --green-soft:#dbf3e4;
+    --blue:#2563eb; --blue-soft:#e2ecff;
+    --code-bg:#f1f3fb; --code-ink:#3a3f5c;
+    --shadow:0 6px 22px rgba(33,40,80,.08);
+    --shadow-sm:0 2px 8px rgba(33,40,80,.07);
+    --radius:16px;
+  }
+  html[data-theme="dark"]{
+    --bg:#0f1320; --bg2:#171c2e; --ink:#e8ecf6; --ink-soft:#bcc4d8; --muted:#8e98b3;
+    --line:#27304a; --line2:#33405f;
+    --brand:#9b8cff; --brand2:#b3a7ff; --brand-soft:#241f44;
+    --teal:#4fd1c5; --teal-soft:#10322f;
+    --amber:#e6b34d; --amber-soft:#3a2f12;
+    --rose:#ff7aa2; --rose-soft:#3a1626;
+    --green:#56d98a; --green-soft:#11321f;
+    --blue:#74a4ff; --blue-soft:#15233f;
+    --code-bg:#1c2335; --code-ink:#cdd5ea;
+    --shadow:0 6px 22px rgba(0,0,0,.4);
+    --shadow-sm:0 2px 8px rgba(0,0,0,.35);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth; scroll-padding-top:80px}
+  body{
+    margin:0; font-family:"Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg); color:var(--ink); line-height:1.65; font-size:16px;
+  }
+  .topbar{
+    position:sticky; top:0; z-index:50; backdrop-filter:saturate(140%) blur(8px);
+    background:color-mix(in srgb,var(--bg2) 88%, transparent);
+    border-bottom:1px solid var(--line); display:flex; align-items:center; gap:14px;
+    padding:10px 18px;
+  }
+  .topbar h1{font-size:15px; margin:0; font-weight:700; letter-spacing:.2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .topbar .sub{color:var(--muted); font-weight:500; font-size:12.5px}
+  .topbar .spacer{flex:1}
+  .iconbtn{
+    border:1px solid var(--line2); background:var(--bg2); color:var(--ink); cursor:pointer;
+    border-radius:10px; padding:7px 11px; font-size:13px; font-weight:600; display:inline-flex; align-items:center; gap:6px;
+  }
+  .iconbtn:hover{border-color:var(--brand); color:var(--brand)}
+  #menuBtn{display:none}
+  .progress{position:fixed; top:0; left:0; height:3px; width:0; background:linear-gradient(90deg,var(--brand),var(--teal)); z-index:60}
+  .layout{display:grid; grid-template-columns:300px 1fr; gap:0; max-width:1400px; margin:0 auto}
+  aside{
+    position:sticky; top:51px; align-self:start; height:calc(100vh - 51px); overflow-y:auto;
+    border-right:1px solid var(--line); padding:18px 14px 60px; background:var(--bg2);
+  }
+  aside .search{width:100%; padding:9px 12px; border:1px solid var(--line2); border-radius:10px;
+    background:var(--bg); color:var(--ink); font-size:13.5px; margin-bottom:12px}
+  aside nav a{
+    display:block; padding:7px 12px; border-radius:9px; color:var(--ink-soft); text-decoration:none;
+    font-size:13.6px; font-weight:500; transition:.15s; border-left:3px solid transparent;
+  }
+  aside nav a:hover{background:var(--brand-soft); color:var(--brand)}
+  aside nav a.active{background:var(--brand-soft); color:var(--brand); font-weight:700; border-left-color:var(--brand)}
+  aside nav .grp{font-size:11px; text-transform:uppercase; letter-spacing:1px; color:var(--muted);
+    margin:16px 12px 6px; font-weight:700}
+  aside nav a .num{display:inline-block; min-width:26px; font-weight:700; color:var(--brand2)}
+  main{padding:30px clamp(18px,4vw,54px) 90px; max-width:980px}
+  section{margin:0 0 46px; scroll-margin-top:70px}
+  h2.sec{font-size:26px; margin:8px 0 4px; letter-spacing:-.3px; display:flex; align-items:center; gap:12px}
+  h2.sec .ic{font-size:30px; line-height:1}
+  .sec-tag{display:inline-block; font-size:12px; font-weight:700; color:var(--brand); background:var(--brand-soft);
+    padding:3px 10px; border-radius:999px; margin-bottom:8px; letter-spacing:.3px}
+  h3{font-size:19.5px; margin:30px 0 10px; letter-spacing:-.2px; padding-bottom:6px; border-bottom:2px solid var(--line)}
+  h4{font-size:16.5px; margin:20px 0 8px; color:var(--ink)}
+  p{margin:10px 0}
+  ul,ol{margin:10px 0; padding-left:22px}
+  li{margin:5px 0}
+  a{color:var(--brand)}
+  code{background:var(--code-bg); color:var(--code-ink); padding:1.5px 6px; border-radius:6px;
+    font-family:"Cascadia Code",Consolas,Menlo,monospace; font-size:13.5px}
+  pre{background:var(--code-bg); color:var(--code-ink); padding:14px 16px; border-radius:12px; overflow-x:auto;
+    border:1px solid var(--line); font-family:"Cascadia Code",Consolas,Menlo,monospace; font-size:13px; line-height:1.5}
+  strong{color:var(--ink); font-weight:700}
+  .lead{font-size:17.5px; color:var(--ink-soft)}
+  .card{background:var(--bg2); border:1px solid var(--line); border-radius:var(--radius); padding:18px 20px; box-shadow:var(--shadow-sm); margin:16px 0}
+  .hero{background:linear-gradient(135deg,var(--brand),var(--teal)); color:#fff; border:none; box-shadow:var(--shadow)}
+  .hero h2.sec{color:#fff}
+  .hero .sec-tag{background:rgba(255,255,255,.2); color:#fff}
+  .hero a{color:#fff; text-decoration:underline}
+  .callout{border-radius:14px; padding:14px 16px 14px 18px; margin:16px 0; border:1px solid; border-left-width:5px; font-size:15px}
+  .callout .t{font-weight:800; display:flex; align-items:center; gap:8px; margin-bottom:4px; font-size:14.5px; letter-spacing:.2px}
+  .def{background:var(--blue-soft); border-color:var(--blue)}
+  .def .t{color:var(--blue)}
+  .tip{background:var(--green-soft); border-color:var(--green)}
+  .tip .t{color:var(--green)}
+  .warn{background:var(--rose-soft); border-color:var(--rose)}
+  .warn .t{color:var(--rose)}
+  .formula{background:var(--amber-soft); border-color:var(--amber)}
+  .formula .t{color:var(--amber)}
+  .key{background:var(--brand-soft); border-color:var(--brand)}
+  .key .t{color:var(--brand)}
+  details.qa{background:var(--bg2); border:1px solid var(--line); border-radius:12px; margin:10px 0; overflow:hidden}
+  details.qa[open]{box-shadow:var(--shadow-sm)}
+  details.qa>summary{
+    cursor:pointer; padding:12px 16px; font-weight:600; list-style:none; display:flex; gap:10px; align-items:flex-start;
+    font-size:15px; color:var(--ink); transition:.15s;
+  }
+  details.qa>summary:hover{background:var(--brand-soft)}
+  details.qa>summary::-webkit-details-marker{display:none}
+  details.qa>summary .q{color:var(--brand); font-weight:800; flex:none}
+  details.qa>summary::after{content:"＋"; margin-left:auto; color:var(--muted); font-weight:700; flex:none}
+  details.qa[open]>summary::after{content:"－"}
+  details.qa[open]>summary{border-bottom:1px solid var(--line); background:var(--brand-soft)}
+  .qa .body{padding:6px 18px 16px; font-size:15px}
+  .qa .body p:first-child{margin-top:10px}
+  .tablewrap{overflow-x:auto; margin:16px 0; border:1px solid var(--line); border-radius:12px}
+  table{border-collapse:collapse; width:100%; font-size:14px; background:var(--bg2)}
+  th,td{padding:10px 13px; text-align:left; border-bottom:1px solid var(--line); vertical-align:top}
+  th{background:var(--brand-soft); color:var(--brand); font-weight:700; font-size:13px; letter-spacing:.2px}
+  tr:last-child td{border-bottom:none}
+  tbody tr:hover{background:color-mix(in srgb,var(--brand-soft) 45%,transparent)}
+  .tag{display:inline-block; font-size:11.5px; font-weight:700; padding:2px 9px; border-radius:999px}
+  .tag.obj{background:var(--teal-soft); color:var(--teal)}
+  .tag.img{background:var(--blue-soft); color:var(--blue)}
+  .enun{background:var(--bg); border:1px dashed var(--line2); border-left:4px solid var(--brand2); border-radius:10px; padding:12px 16px; margin:4px 0 16px; font-size:14.5px}
+  .enun .lbl{display:inline-block; font-size:11px; font-weight:800; letter-spacing:1px; color:var(--brand2); text-transform:uppercase; margin-bottom:6px}
+  .chips{display:flex; flex-wrap:wrap; gap:8px; margin:12px 0}
+  .chip{background:var(--bg2); border:1px solid var(--line2); border-radius:999px; padding:6px 14px; font-size:13px; font-weight:600; color:var(--ink-soft)}
+  figure{margin:18px 0; text-align:center}
+  figure svg{max-width:100%; height:auto; background:var(--bg2); border:1px solid var(--line); border-radius:12px}
+  figcaption{font-size:13px; color:var(--muted); margin-top:8px}
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:14px}
+  .grid3{display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px}
+  .backtop{position:fixed; right:20px; bottom:20px; z-index:40; background:var(--brand); color:#fff; border:none;
+    width:46px; height:46px; border-radius:50%; font-size:20px; cursor:pointer; box-shadow:var(--shadow); display:none}
+  .backtop.show{display:block}
+  .checklist{list-style:none; padding-left:0}
+  .checklist li{padding-left:30px; position:relative; margin:8px 0}
+  .checklist li::before{content:"☐"; position:absolute; left:0; color:var(--brand); font-size:18px; top:-1px}
+  mark{background:var(--amber-soft); color:var(--ink); padding:0 3px; border-radius:4px}
+  .small{font-size:13.5px; color:var(--muted)}
+  hr.soft{border:none; border-top:1px dashed var(--line2); margin:26px 0}
+  @media (max-width:920px){
+    .layout{grid-template-columns:1fr}
+    aside{position:fixed; left:0; top:51px; width:300px; max-width:86vw; transform:translateX(-105%);
+      transition:.25s; z-index:45; box-shadow:var(--shadow); height:calc(100vh - 51px)}
+    aside.open{transform:none}
+    #menuBtn{display:inline-flex}
+    .grid2,.grid3{grid-template-columns:1fr}
+    main{padding:22px 16px 80px}
+  }
+  @media print{
+    .topbar,aside,.backtop,.progress{display:none!important}
+    .layout{display:block}
+    details.qa{break-inside:avoid} details.qa>summary::after{display:none}
+    details.qa .body{display:block!important}
+    main{max-width:none; padding:0}
+    body{font-size:12px}
+  }
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+
+<div class="topbar">
+  <button class="iconbtn" id="menuBtn" aria-label="Menu">☰</button>
+  <h1>💻 Super Guia &mdash; Analista TI (Desenvolvimento) <span class="sub">| Prefeitura de Vitória/ES — Edital 02/2026</span></h1>
+  <span class="spacer"></span>
+  <button class="iconbtn" id="expandBtn" title="Abrir/fechar todas as respostas">▣ Expandir tudo</button>
+  <button class="iconbtn" id="themeBtn" title="Modo claro/escuro">🌙 Tema</button>
+</div>
+
+<div class="layout">
+  <aside id="sidebar">
+    <input class="search" id="navSearch" type="text" placeholder="🔎 Filtrar tópicos...">
+    <nav id="toc">
+      <div class="grp">Começe por aqui</div>
+      <a href="#intro"><span class="num">★</span> Como usar este guia</a>
+      <a href="#mapa"><span class="num">🗺️</span> Mapa do edital</a>
+      <div class="grp">Matérias comuns</div>
+      <a href="#lp"><span class="num">1</span> Língua Portuguesa</a>
+      <a href="#rlm"><span class="num">2</span> Raciocínio Lógico</a>
+      <a href="#mat"><span class="num">3</span> Matemática</a>
+      <a href="#dir"><span class="num">4</span> Dir. Constitucional e Administrativo</a>
+      <a href="#adm"><span class="num">5</span> Administração Pública</a>
+      <a href="#leg"><span class="num">6</span> Legislação Municipal de Vitória</a>
+      <div class="grp">⭐ Conhecimentos específicos</div>
+      <a href="#ti1"><span class="num">7.1</span> Segurança de Aplicações</a>
+      <a href="#ti2"><span class="num">7.2</span> Processos de Desenvolvimento</a>
+      <a href="#ti3"><span class="num">7.3</span> Arquitetura de Software</a>
+      <a href="#ti4"><span class="num">7.4</span> Tecnologias e Plataformas</a>
+      <a href="#ti5"><span class="num">7.5</span> Banco de Dados</a>
+      <a href="#ti6"><span class="num">7.6</span> Dados, BI e Analítica</a>
+      <a href="#ti7"><span class="num">7.7</span> Tópicos Especiais</a>
+      <div class="grp">Material de fechamento</div>
+      <a href="#checklist"><span class="num">✓</span> Checklist da véspera</a>
+    </nav>
+  </aside>
+
+  <main>
+
+  <!-- ===== INTRO ===== -->
+  <section id="intro">
+    <div class="card hero">
+      <div class="sec-tag">Guia de estudo completo</div>
+      <h2 class="sec"><span class="ic">💻</span> Analista em Tecnologia da Informação — Desenvolvimento</h2>
+      <p class="lead" style="color:#fff">Guia montado a partir do <strong>Anexo I (Conteúdo Programático)</strong> do Edital nº 02/2026 da Prefeitura de Vitória/ES. Cobre as <strong>6 matérias comuns</strong> (Português, Raciocínio Lógico, Matemática, Direito Constitucional/Administrativo, Administração Pública e Legislação Municipal) e, com mais profundidade, os <strong>7 blocos de Conhecimentos Específicos</strong> do cargo Analista em TI - Desenvolvimento. Cada tópico traz explicação, tabelas comparativas, fórmulas/exemplos e blocos de pergunta-e-resposta.</p>
+    </div>
+    <div class="callout tip">
+      <div class="t">💡 Como aproveitar melhor</div>
+      <ul style="margin-bottom:0">
+        <li>Use a <strong>busca da barra lateral</strong> para pular direto a um tópico do edital.</li>
+        <li>Os blocos <strong>"clique para abrir a resposta"</strong> ajudam a testar o que você já sabe antes de ler.</li>
+        <li>Botão <strong>"Expandir tudo"</strong> abre todas as respostas — ótimo para revisar rápido ou imprimir (Ctrl/Cmd + P).</li>
+        <li><span style="color:var(--rose);font-weight:700">Blocos vermelhos ⚠️</span> = pegadinhas/erros comuns. <span style="color:var(--amber);font-weight:700">Blocos amarelos ∑</span> = fórmulas/siglas para decorar.</li>
+        <li>Os blocos <strong>7.x</strong> (Conhecimentos Específicos) são o coração da prova para este cargo — priorize-os.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ===== MAPA ===== -->
+  <section id="mapa">
+    <div class="sec-tag">Visão geral</div>
+    <h2 class="sec"><span class="ic">🗺️</span> Mapa do edital</h2>
+    <p>A prova tem duas grandes frentes: as <strong>matérias comuns</strong> (base a todos os cargos de nível superior) e os <strong>conhecimentos específicos</strong> do cargo/especialidade — no seu caso, <strong>Analista em TI - Desenvolvimento</strong>.</p>
+    <div class="tablewrap">
+    <table>
+      <thead><tr><th>Bloco</th><th>Matéria</th><th>Foco principal</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>Língua Portuguesa</td><td>Interpretação, gramática normativa, sintaxe, semântica</td></tr>
+        <tr><td>2</td><td>Raciocínio Lógico</td><td>Proposições, tabela-verdade, conjuntos, contagem</td></tr>
+        <tr><td>3</td><td>Matemática</td><td>Álgebra, proporcionalidade, geometria, estatística básica</td></tr>
+        <tr><td>4</td><td>Dir. Constitucional/Administrativo</td><td>Princípios da Adm. Pública, CF/88, Lei 14.133/21, LAI, LGPD</td></tr>
+        <tr><td>5</td><td>Administração Pública</td><td>Planejamento (PPA/LDO/LOA), governança, indicadores</td></tr>
+        <tr><td>6</td><td>Legislação Municipal de Vitória</td><td>Lei Orgânica, Estatuto do Servidor, Código de Ética, processo eletrônico</td></tr>
+        <tr><td>7.1</td><td><strong>Segurança de Aplicações</strong></td><td>Secure by design, criptografia, OAuth2/JWT, OWASP</td></tr>
+        <tr><td>7.2</td><td><strong>Processos de Desenvolvimento</strong></td><td>Requisitos, Scrum/Kanban, UML, testes, CI/CD</td></tr>
+        <tr><td>7.3</td><td><strong>Arquitetura de Software</strong></td><td>REST/SOAP/GraphQL, microsserviços, mensageria</td></tr>
+        <tr><td>7.4</td><td><strong>Tecnologias e Plataformas</strong></td><td>.NET, PHP/Symfony, Node.js, Angular/Vue, Docker/K8s, GitLab</td></tr>
+        <tr><td>7.5</td><td><strong>Banco de Dados</strong></td><td>Modelagem ER, normalização, ACID, SQL (DDL/DML/SELECT)</td></tr>
+        <tr><td>7.6</td><td><strong>Dados, BI e Analítica</strong></td><td>DW/Data Lake, Power BI, ETL</td></tr>
+        <tr><td>7.7</td><td><strong>Tópicos Especiais</strong></td><td>LGPD, fiscalização de contratos de TI, IA generativa/LLMs</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="callout key">
+      <div class="t">🔑 Onde concentrar energia</div>
+      <ol style="margin-bottom:0">
+        <li><strong>SQL na prática</strong> (JOINs, GROUP BY, subconsultas) e <strong>modelagem/normalização</strong> — cai como questão de cálculo/leitura de código.</li>
+        <li><strong>Segurança</strong>: OWASP Top 10, OAuth2/OIDC/JWT, criptografia simétrica x assimétrica, hash.</li>
+        <li><strong>Arquitetura</strong>: diferenças REST x SOAP x GraphQL, monólito x microsserviços, síncrono x assíncrono/mensageria.</li>
+        <li><strong>Legislação transversal</strong>: Lei 14.133/2021, LGPD (13.709/2018) e LAI (12.527/2011) aparecem em mais de um bloco — dominar uma vez rende pontos em vários lugares.</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ================= 1. LÍNGUA PORTUGUESA ================= -->
+  <section id="lp">
+    <div class="sec-tag">Bloco 1 · Matéria comum</div>
+    <h2 class="sec"><span class="ic">📝</span> Língua Portuguesa</h2>
+    <p class="lead">Foco em interpretação de texto, gramática normativa aplicada e semântica — praticamente todo concurso cobra "identifique a função sintática" ou "reescreva sem alterar o sentido".</p>
+
+    <h3>1. Interpretação e tipologia textual</h3>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Tipo</th><th>Objetivo</th><th>Marca típica</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Descritivo</strong></td><td>Retratar características de algo/alguém</td><td>Adjetivos, verbos de estado</td></tr>
+        <tr><td><strong>Narrativo</strong></td><td>Contar fatos/ações no tempo</td><td>Verbos de ação, sequência temporal</td></tr>
+        <tr><td><strong>Expositivo</strong></td><td>Explicar/informar um tema</td><td>Linguagem objetiva, dados</td></tr>
+        <tr><td><strong>Argumentativo</strong></td><td>Defender um ponto de vista</td><td>Conectivos de causa/conclusão, opinião</td></tr>
+        <tr><td><strong>Injuntivo</strong></td><td>Instruir/orientar uma ação</td><td>Imperativo, infinitivo (receitas, manuais)</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout def">
+      <div class="t">📘 Coesão × Coerência</div>
+      <strong>Coesão</strong> = amarração gramatical entre as partes do texto (pronomes, conjunções, repetição controlada — referencialidade e sequencialidade). <strong>Coerência</strong> = o texto fazer sentido como um todo (lógica das ideias). <strong>Intertextualidade</strong> = diálogo entre textos (citação, paráfrase, paródia).
+    </div>
+    <details class="qa"><summary><span class="q">Q1</span> Qual a diferença entre coesão referencial e sequencial?</summary>
+    <div class="body"><p><strong>Referencial</strong>: retoma um termo já citado (pronomes, sinônimos, elipse) — ex.: "Maria saiu. <em>Ela</em> foi ao mercado." <strong>Sequencial</strong>: encadeia as ideias com conectivos (e, mas, portanto, por isso), garantindo progressão lógica do texto.</p></div></details>
+
+    <h3>2. Morfologia e classes de palavras</h3>
+    <p>As <strong>10 classes gramaticais</strong>: substantivo, adjetivo, artigo, numeral, pronome, verbo, advérbio, conjunção, preposição, interjeição. Dividem-se em <strong>variáveis</strong> (substantivo, adjetivo, artigo, numeral, pronome, verbo) e <strong>invariáveis</strong> (advérbio, conjunção, preposição, interjeição).</p>
+
+    <h3>3. Sintaxe: termos da oração e período</h3>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Termo</th><th>Função</th></tr></thead>
+      <tbody>
+        <tr><td>Sujeito</td><td>Quem pratica/sofre a ação verbal</td></tr>
+        <tr><td>Predicado</td><td>Tudo que se declara sobre o sujeito</td></tr>
+        <tr><td>Objeto direto/indireto</td><td>Complementam o verbo (sem/com preposição)</td></tr>
+        <tr><td>Complemento nominal</td><td>Completa nome (substantivo/adjetivo/advérbio)</td></tr>
+        <tr><td>Adjunto adnominal</td><td>Caracteriza o substantivo (sem verbo de ligação)</td></tr>
+        <tr><td>Adjunto adverbial</td><td>Circunstância (tempo, lugar, modo...)</td></tr>
+        <tr><td>Aposto / Vocativo</td><td>Explica o termo anterior / chama o interlocutor</td></tr>
+      </tbody>
+    </table></div>
+    <p><strong>Período composto</strong>: por <strong>coordenação</strong> (orações independentes ligadas por conjunções — aditiva, adversativa, alternativa, conclusiva, explicativa) ou por <strong>subordinação</strong> (uma oração depende sintaticamente da outra — substantivas, adjetivas, adverbiais).</p>
+
+    <h3>4. Concordância, regência e crase</h3>
+    <div class="callout formula">
+      <div class="t">∑ Regra de ouro da crase</div>
+      Crase = fusão da preposição <code>a</code> + artigo <code>a(s)</code>. Só ocorre se o termo regente <strong>exige a preposição "a"</strong> e o termo regido <strong>admite o artigo "a"</strong> (normalmente palavra feminina). Antes de palavra masculina, verbo ou pronome pessoal/de tratamento (salvo exceções como "Sua Excelência"), <strong>não há crase</strong>.
+    </div>
+    <details class="qa"><summary><span class="q">Q2</span> "Vou a Brasília e voltarei da mesma cidade" tem crase?</summary>
+    <div class="body"><p>Não. Regra do "volta/regresso": se ao trocar "vou a" por "volto/regresso de" o resultado é "da" (com artigo), há crase quando cabível ("vou à cidade que conheço" → "volto da cidade"); mas em "vou a Brasília / volto de Brasília" (sem artigo antes de Brasília) não há crase, pois o nome próprio não admite artigo nesse caso.</p></div></details>
+
+    <h3>5. Semântica e pontuação</h3>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Fenômeno</th><th>Exemplo</th></tr></thead>
+      <tbody>
+        <tr><td>Sinonímia</td><td>alegre / contente</td></tr>
+        <tr><td>Antonímia</td><td>alegre / triste</td></tr>
+        <tr><td>Paronímia</td><td>cumprimento / comprimento (grafia parecida, sentido diferente)</td></tr>
+        <tr><td>Homonímia</td><td>são (verbo) / são (adjetivo) / são (santo)</td></tr>
+        <tr><td>Polissemia</td><td>"banco" (assento, instituição financeira)</td></tr>
+      </tbody>
+    </table></div>
+    <p>Pontuação: vírgula não separa sujeito de predicado nem verbo de complemento (salvo aposto/intercalação); ponto e vírgula separa itens de enumeração complexa ou orações coordenadas longas; dois-pontos introduzem explicação, citação ou enumeração.</p>
+  </section>
+
+  <!-- ================= 2. RACIOCÍNIO LÓGICO ================= -->
+  <section id="rlm">
+    <div class="sec-tag">Bloco 2 · Matéria comum</div>
+    <h2 class="sec"><span class="ic">🧩</span> Raciocínio Lógico</h2>
+    <p class="lead">Base: lógica proposicional, conjuntos, contagem e leitura de tabelas/gráficos.</p>
+
+    <h3>1. Proposições e conectivos</h3>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Conectivo</th><th>Símbolo</th><th>Nome</th><th>V quando...</th></tr></thead>
+      <tbody>
+        <tr><td>e</td><td>∧</td><td>Conjunção</td><td>ambas verdadeiras</td></tr>
+        <tr><td>ou</td><td>∨</td><td>Disjunção (inclusiva)</td><td>pelo menos uma verdadeira</td></tr>
+        <tr><td>se...então</td><td>→</td><td>Condicional/Implicação</td><td>falsa só quando V→F</td></tr>
+        <tr><td>se e somente se</td><td>↔</td><td>Bicondicional/Equivalência</td><td>ambas com o mesmo valor</td></tr>
+        <tr><td>não</td><td>~ / ¬</td><td>Negação</td><td>inverte o valor-verdade</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout formula">
+      <div class="t">∑ Leis de De Morgan</div>
+      <pre>~(P ∧ Q)  ≡  ~P ∨ ~Q
+~(P ∨ Q)  ≡  ~P ∧ ~Q</pre>
+      A <strong>negação de "se P então Q"</strong> é <code>P ∧ ~Q</code> (P verdadeiro e Q falso) — pegadinha clássica.
+    </div>
+    <details class="qa"><summary><span class="q">Q1</span> Qual é a negação de "Todos os alunos passaram"?</summary>
+    <div class="body"><p><strong>"Algum aluno não passou"</strong> (existe pelo menos um que não passou). Negar "todo" vira "existe algum que não"; negar "existe algum" vira "nenhum" / "todo não".</p></div></details>
+
+    <h3>2. Conjuntos, contagem e probabilidade</h3>
+    <div class="callout formula">
+      <div class="t">∑ Fórmulas de conjuntos e contagem</div>
+      <pre>|A ∪ B| = |A| + |B| − |A ∩ B|
+Permutação:      P(n) = n!
+Arranjo:         A(n,p) = n!/(n−p)!
+Combinação:      C(n,p) = n!/[p!(n−p)!]
+Probabilidade:   P = casos favoráveis / casos possíveis</pre>
+    </div>
+    <details class="qa"><summary><span class="q">Q2</span> Em uma pesquisa, 60 pessoas gostam de A, 40 de B e 20 de ambos. Quantas gostam de A ou B?</summary>
+    <div class="body"><p><code>|A∪B| = 60+40−20 = 80</code> pessoas.</p></div></details>
+  </section>
+
+  <!-- ================= 3. MATEMÁTICA ================= -->
+  <section id="mat">
+    <div class="sec-tag">Bloco 3 · Matéria comum</div>
+    <h2 class="sec"><span class="ic">📐</span> Matemática</h2>
+    <p class="lead">Álgebra básica, proporcionalidade (a mais cobrada em concursos), geometria e estatística descritiva.</p>
+
+    <h3>1. Proporcionalidade: regra de três, %, juros</h3>
+    <div class="callout formula">
+      <div class="t">∑ Juros simples × compostos</div>
+      <pre>Juros simples:    J = C · i · t         M = C + J = C·(1 + i·t)
+Juros compostos:  M = C · (1 + i)^t     J = M − C</pre>
+      <code>C</code>=capital, <code>i</code>=taxa (decimal), <code>t</code>=tempo (na mesma unidade da taxa).
+    </div>
+    <details class="qa"><summary><span class="q">Q1</span> R$ 1.000 a 5% a.m. simples por 3 meses. Qual o montante?</summary>
+    <div class="body"><p><code>M = 1000·(1+0,05·3) = 1000·1,15 = R$ 1.150</code></p></div></details>
+
+    <h3>2. Geometria: áreas, Pitágoras e trigonometria</h3>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Figura</th><th>Área</th></tr></thead>
+      <tbody>
+        <tr><td>Retângulo</td><td>b × h</td></tr>
+        <tr><td>Triângulo</td><td>(b × h) / 2</td></tr>
+        <tr><td>Círculo</td><td>π·r²</td></tr>
+        <tr><td>Trapézio</td><td>(B+b)·h / 2</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout formula">
+      <div class="t">∑ Triângulo retângulo</div>
+      <pre>Pitágoras:  a² = b² + c²  (a = hipotenusa)
+Seno    = cateto oposto / hipotenusa
+Cosseno = cateto adjacente / hipotenusa
+Tangente= cateto oposto / cateto adjacente</pre>
+    </div>
+
+    <h3>3. Estatística e sequências</h3>
+    <div class="callout formula">
+      <div class="t">∑ PA e PG</div>
+      <pre>PA:  a(n) = a(1) + (n−1)·r        Soma = n·(a1+an)/2
+PG:  a(n) = a(1) · q^(n−1)</pre>
+      Média aritmética simples = soma dos valores / quantidade. <strong>Ponderada</strong> = soma de (valor × peso) / soma dos pesos.
+    </div>
+  </section>
+
+  <!-- ================= 4. DIREITO CONSTITUCIONAL E ADMINISTRATIVO ================= -->
+  <section id="dir">
+    <div class="sec-tag">Bloco 4 · Matéria comum</div>
+    <h2 class="sec"><span class="ic">⚖️</span> Direito Constitucional e Administrativo</h2>
+    <p class="lead">Bloco denso, mas muito repetitivo entre editais — os princípios da Administração Pública e as leis 14.133/2021, LAI e LGPD aparecem de novo no bloco de TI.</p>
+
+    <h3>1. Princípios da Administração Pública (art. 37, CF)</h3>
+    <div class="chips">
+      <span class="chip">Legalidade</span><span class="chip">Impessoalidade</span><span class="chip">Moralidade</span>
+      <span class="chip">Publicidade</span><span class="chip">Eficiência</span>
+    </div>
+    <p>Mnemônico: <strong>LIMPE</strong>. Somam-se ainda: indisponibilidade do interesse público, proporcionalidade, razoabilidade, motivação, continuidade, presunção de legitimidade/veracidade, autoexecutoriedade, autotutela, segurança jurídica e proteção à confiança/boa-fé.</p>
+    <div class="callout def">
+      <div class="t">📘 Atributos do ato administrativo</div>
+      <strong>Presunção de legitimidade</strong> (presume-se válido até prova em contrário), <strong>autoexecutoriedade</strong> (a Administração executa sem precisar de autorização judicial prévia) e <strong>imperatividade/coercibilidade</strong> (impõe-se unilateralmente ao administrado).
+    </div>
+
+    <h3>2. Poderes da Administração</h3>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Poder</th><th>O que é</th></tr></thead>
+      <tbody>
+        <tr><td>Vinculado</td><td>Lei não dá margem de escolha — só uma conduta possível</td></tr>
+        <tr><td>Discricionário</td><td>Lei permite juízo de conveniência e oportunidade</td></tr>
+        <tr><td>Regulamentar/normativo</td><td>Editar decretos/regulamentos para fiel execução da lei</td></tr>
+        <tr><td>Hierárquico</td><td>Organizar, dar ordens, fiscalizar, delegar/avocar</td></tr>
+        <tr><td>Disciplinar</td><td>Apurar e punir infrações de servidores/contratados</td></tr>
+        <tr><td>De polícia</td><td>Restringir direitos individuais em prol do interesse público</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>3. Lei 14.133/2021 (Licitações e Contratos)</h3>
+    <div class="callout key">
+      <div class="t">🔑 Modalidades de licitação (Lei 14.133/2021)</div>
+      Pregão, concorrência, concurso, leilão e diálogo competitivo. Casos de <strong>dispensa</strong> (contratação direta permitida por lei, ex.: baixo valor) e <strong>inexigibilidade</strong> (inviabilidade de competição, ex.: fornecedor exclusivo, notória especialização).
+    </div>
+
+    <h3>4. LAI e LGPD</h3>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Lei</th><th>Trata de</th></tr></thead>
+      <tbody>
+        <tr><td>Lei 12.527/2011 (LAI)</td><td>Acesso à informação pública: transparência ativa/passiva, sigilo classificado</td></tr>
+        <tr><td>Lei 13.709/2018 (LGPD)</td><td>Proteção de dados pessoais: consentimento, bases legais, agentes de tratamento (controlador/operador), direitos do titular</td></tr>
+      </tbody>
+    </table></div>
+    <p class="small">Aprofundamento de LGPD específico para TI está no bloco <a href="#ti7">7.7 Tópicos Especiais</a>.</p>
+
+    <h3>5. Constituição Federal — pontos-chave</h3>
+    <ul>
+      <li><strong>Normas de eficácia plena</strong>: aplicação imediata, não precisam de lei regulamentadora.</li>
+      <li><strong>Normas de eficácia contida</strong>: aplicação imediata, mas podem ser restringidas por lei.</li>
+      <li><strong>Normas de eficácia limitada</strong>: dependem de lei para produzir efeitos plenos (ex.: normas programáticas).</li>
+      <li><strong>Organização político-administrativa</strong>: União, Estados, Distrito Federal e Municípios — todos entes federativos autônomos.</li>
+    </ul>
+  </section>
+
+  <!-- ================= 5. ADMINISTRAÇÃO PÚBLICA ================= -->
+  <section id="adm">
+    <div class="sec-tag">Bloco 5 · Matéria comum</div>
+    <h2 class="sec"><span class="ic">🏛️</span> Administração Pública</h2>
+    <p class="lead">Planejamento orçamentário e ferramentas de gestão — muito ligado ao bloco de Gestão de Projetos/Processos do cargo de TI.</p>
+
+    <h3>1. Ciclo orçamentário: PPA, LDO, LOA</h3>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Instrumento</th><th>Prazo</th><th>Função</th></tr></thead>
+      <tbody>
+        <tr><td><strong>PPA</strong> (Plano Plurianual)</td><td>4 anos</td><td>Diretrizes, objetivos e metas de médio prazo</td></tr>
+        <tr><td><strong>LDO</strong> (Lei de Diretrizes Orçamentárias)</td><td>Anual, antecipa a LOA</td><td>Prioridades e metas para o próximo orçamento</td></tr>
+        <tr><td><strong>LOA</strong> (Lei Orçamentária Anual)</td><td>1 ano</td><td>Estima receitas e fixa despesas do exercício</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>2. Ferramentas de planejamento estratégico</h3>
+    <div class="grid2">
+      <div class="card"><h4 style="margin-top:0">SWOT</h4><p style="margin-bottom:0">Forças e fraquezas (ambiente <strong>interno</strong>) × oportunidades e ameaças (ambiente <strong>externo</strong>).</p></div>
+      <div class="card"><h4 style="margin-top:0">Matriz GUT</h4><p style="margin-bottom:0"><strong>G</strong>ravidade × <strong>U</strong>rgência × <strong>T</strong>endência — prioriza problemas multiplicando notas (1 a 5) das três dimensões.</p></div>
+    </div>
+    <div class="callout formula">
+      <div class="t">∑ PDCA</div>
+      <pre>Plan (planejar) → Do (executar) → Check (verificar) → Act (agir/corrigir)</pre>
+      Ciclo de melhoria contínua — retroalimenta o planejamento com os resultados do controle.
+    </div>
+
+    <h3>3. Governança, governabilidade e accountability</h3>
+    <ul>
+      <li><strong>Governança</strong>: capacidade técnico-administrativa de formular e implementar políticas.</li>
+      <li><strong>Governabilidade</strong>: legitimidade política do governo perante a sociedade.</li>
+      <li><strong>Accountability</strong>: prestação de contas e responsabilização dos agentes públicos.</li>
+    </ul>
+    <p>Instrumentos de mudança institucional citados no edital: <strong>Organizações Sociais (OS)</strong>, <strong>OSCIP</strong>, agências reguladoras/executivas e consórcios públicos — todos ligados à administração pública gerencial (contraponto ao modelo burocrático).</p>
+  </section>
+
+  <!-- ================= 6. LEGISLAÇÃO MUNICIPAL ================= -->
+  <section id="leg">
+    <div class="sec-tag">Bloco 6 · Matéria comum</div>
+    <h2 class="sec"><span class="ic">🏙️</span> Legislação Municipal de Vitória</h2>
+    <p class="lead">Bloco específico do município — leia ao menos um resumo de cada norma; costuma cair pergunta literal de artigo.</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Norma</th><th>Assunto</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Lei Orgânica de Vitória</strong></td><td>"Constituição" do município: organização dos poderes locais, competências</td></tr>
+        <tr><td><strong>Lei Municipal 2.994/1982</strong></td><td>Estatuto dos Funcionários Públicos de Vitória (regime jurídico dos servidores)</td></tr>
+        <tr><td><strong>Decreto 16.559/2015</strong></td><td>Código de Ética dos Servidores Públicos e da Alta Administração do Executivo municipal</td></tr>
+        <tr><td><strong>Decreto 19.930/2021</strong></td><td>Uso do meio eletrônico em processos administrativos da administração pública municipal direta</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout warn">
+      <div class="t">⚠️ Não confundir</div>
+      A <strong>Lei Orgânica</strong> é sobre organização político-administrativa do município; o <strong>Estatuto (2.994/1982)</strong> é sobre direitos/deveres dos servidores (o "regime jurídico" — cargo, provimento, vacância, regime disciplinar); o <strong>Código de Ética</strong> trata de conduta e valores; o <strong>Decreto 19.930/2021</strong> é processual (PDF/assinatura eletrônica, tramitação digital).
+    </div>
+  </section>
+
+  <!-- ================= 7.1 SEGURANÇA DE APLICAÇÕES ================= -->
+  <section id="ti1">
+    <div class="sec-tag">Bloco 7.1 · Conhecimentos específicos</div>
+    <h2 class="sec"><span class="ic">🔐</span> Segurança de Aplicações</h2>
+    <p class="lead">O bloco mais "conceitual e transversal" da prova de TI: aparece em toda arquitetura, todo banco de dados e toda integração.</p>
+
+    <h3>1. Secure by design e secure by default</h3>
+    <div class="callout def">
+      <div class="t">📘 Conceitos</div>
+      <strong>Secure by design</strong>: segurança pensada desde a arquitetura/modelagem, não "adicionada depois". <strong>Secure by default</strong>: a configuração padrão do sistema já é a mais segura possível (ex.: portas fechadas, permissões mínimas por padrão — <em>princípio do menor privilégio</em>).
+    </div>
+    <p>Boas práticas relacionadas: <strong>validação de entradas</strong> (nunca confiar em dado vindo do cliente — validar tipo, tamanho, formato, whitelist), <strong>tratamento seguro de erros</strong> (mensagens genéricas ao usuário, log detalhado só internamente — evita vazar stack trace/versão de framework) e <strong>proteção de dados em trânsito e em repouso</strong> (TLS na rede; criptografia/hash no banco).</p>
+
+    <h3>2. Criptografia e proteção de credenciais</h3>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Mecanismo</th><th>Uso</th><th>Exemplo</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Hash</strong></td><td>Função de mão única, não reversível — usada para <strong>armazenar senhas</strong> (nunca em texto puro)</td><td>bcrypt, Argon2, SHA-256 (com salt)</td></tr>
+        <tr><td><strong>Criptografia simétrica</strong></td><td>Mesma chave cifra e decifra — rápida, ideal para grandes volumes</td><td>AES</td></tr>
+        <tr><td><strong>Criptografia assimétrica</strong></td><td>Par de chaves (pública/privada) — troca de chaves, assinatura digital</td><td>RSA, ECC</td></tr>
+        <tr><td><strong>TLS/HTTPS</strong></td><td>Canal seguro na rede combinando os dois tipos (assimétrica no handshake, simétrica na sessão)</td><td>certificado digital + cifra de sessão</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout warn">
+      <div class="t">⚠️ Pegadinha clássica</div>
+      <strong>Hash não é criptografia reversível.</strong> Senha deve ser <em>hasheada com salt</em> (nunca "criptografada" com chave reversível), porque não se precisa nunca recuperar a senha original — só comparar hashes.
+    </div>
+
+    <h3>3. Controle de acesso e identidade</h3>
+    <div class="grid2">
+      <div class="card"><h4 style="margin-top:0">RBAC</h4><p style="margin-bottom:0"><em>Role-Based Access Control</em>: permissões atribuídas a <strong>papéis/funções</strong> (ex.: "admin", "operador"), e o usuário herda o papel.</p></div>
+      <div class="card"><h4 style="margin-top:0">ABAC</h4><p style="margin-bottom:0"><em>Attribute-Based Access Control</em>: decisão de acesso baseada em <strong>atributos</strong> (usuário, recurso, ambiente, horário) — mais granular e dinâmico que RBAC.</p></div>
+    </div>
+    <div class="callout formula">
+      <div class="t">∑ SSO, OAuth 2.0, OIDC e JWT</div>
+      <ul style="margin-bottom:0">
+        <li><strong>SSO</strong> (Single Sign-On): um login serve para múltiplos sistemas.</li>
+        <li><strong>OAuth 2.0</strong>: protocolo de <strong>autorização</strong> (delega acesso a recursos sem compartilhar senha — "app X pode acessar seus dados do app Y").</li>
+        <li><strong>OpenID Connect (OIDC)</strong>: camada de <strong>autenticação</strong> construída sobre o OAuth 2.0 (confirma "quem é o usuário").</li>
+        <li><strong>JWT</strong> (JSON Web Token): token assinado (header.payload.signature, em Base64), carrega claims (identidade/permissões) e é validado sem consultar o servidor a cada requisição.</li>
+      </ul>
+    </div>
+    <details class="qa"><summary><span class="q">Q1</span> Qual a diferença entre autenticação e autorização?</summary>
+    <div class="body"><p><strong>Autenticação</strong> = provar quem você é (login/senha, biometria, OIDC). <strong>Autorização</strong> = definir o que você pode fazer depois de autenticado (permissões, RBAC/ABAC, escopos do OAuth2).</p></div></details>
+
+    <h3>4. OWASP Top 10</h3>
+    <p>Referencial de boas práticas para segurança de aplicações web/APIs. Principais categorias historicamente cobradas: <strong>Injection</strong> (SQL/Command Injection), <strong>Broken Authentication</strong>, <strong>Sensitive Data Exposure</strong>, <strong>Broken Access Control</strong>, <strong>Security Misconfiguration</strong>, <strong>XSS (Cross-Site Scripting)</strong>, <strong>Uso de componentes vulneráveis/desatualizados</strong>, e <strong>SSRF</strong>.</p>
+    <div class="callout warn">
+      <div class="t">⚠️ SQL Injection — a mais cobrada</div>
+      Ocorre quando a entrada do usuário é <strong>concatenada diretamente</strong> na query SQL. Prevenção: <strong>prepared statements / parameterized queries</strong> (nunca concatenar string), ORM, validação e escaping de entrada.
+    </div>
+  </section>
+
+  <!-- ================= 7.2 PROCESSOS DE DESENVOLVIMENTO ================= -->
+  <section id="ti2">
+    <div class="sec-tag">Bloco 7.2 · Conhecimentos específicos</div>
+    <h2 class="sec"><span class="ic">🔄</span> Processos de Desenvolvimento, Gerência de Configuração, Entrega e Sustentação</h2>
+
+    <h3>1. Requisitos</h3>
+    <p><strong>Elicitação</strong> (levantar requisitos: entrevistas, workshops, observação) → <strong>análise</strong> (organizar/detalhar) → <strong>priorização</strong> (MoSCoW, valor de negócio) → <strong>rastreabilidade</strong> (ligar requisito a caso de teste/código, para saber o impacto de mudanças).</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Tipo</th><th>Exemplo</th></tr></thead>
+      <tbody>
+        <tr><td>Requisito funcional</td><td>"O sistema deve permitir login com e-mail e senha"</td></tr>
+        <tr><td>Requisito não funcional</td><td>"O login deve responder em até 2 segundos" (desempenho, segurança, usabilidade)</td></tr>
+        <tr><td>Critério de aceitação</td><td>Condições objetivas para considerar a história pronta (Given/When/Then)</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>2. Ciclo de vida e métodos ágeis</h3>
+    <div class="grid2">
+      <div class="card"><h4 style="margin-top:0">Scrum</h4><p style="margin-bottom:0">Sprints com duração fixa, papéis (Product Owner, Scrum Master, Time), cerimônias (planning, daily, review, retrospectiva) e artefatos (backlog do produto, backlog da sprint, incremento).</p></div>
+      <div class="card"><h4 style="margin-top:0">Kanban</h4><p style="margin-bottom:0">Fluxo contínuo (sem sprints fixas), quadro visual com colunas, <strong>limite de WIP</strong> (work in progress) para evitar sobrecarga e destacar gargalos.</p></div>
+    </div>
+
+    <h3>3. UML — diagramas essenciais</h3>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Diagrama</th><th>Mostra</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Casos de uso</strong></td><td>Interações entre atores e o sistema (o "o quê", visão funcional)</td></tr>
+        <tr><td><strong>Classes</strong></td><td>Estrutura estática: classes, atributos, métodos, relacionamentos (herança, associação, agregação, composição)</td></tr>
+        <tr><td><strong>Sequência</strong></td><td>Ordem temporal das mensagens trocadas entre objetos</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>4. Boas práticas de construção</h3>
+    <div class="callout key">
+      <div class="t">🔑 Coesão × Acoplamento</div>
+      <strong>Alta coesão</strong> (bom): um módulo faz uma coisa bem definida. <strong>Baixo acoplamento</strong> (bom): módulos dependem pouco uns dos outros. O ideal de design é <strong>alta coesão + baixo acoplamento</strong> — facilita manutenção e testes.
+    </div>
+    <p>Qualidade contínua: <strong>análise estática de código</strong> (linters, SonarQube — detecta problemas sem executar o código), <strong>revisão por pares (code review)</strong>, <strong>programação em pares (pair programming)</strong> e testes: <strong>unitários</strong> (menor unidade, isolada), <strong>de integração</strong> (módulos combinados).</p>
+
+    <h3>5. Gestão de configuração, CI/CD</h3>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Termo</th><th>Significado</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Branch</strong></td><td>Linha de desenvolvimento paralela e isolada</td></tr>
+        <tr><td><strong>Merge</strong></td><td>Une o histórico de duas branches</td></tr>
+        <tr><td><strong>CI</strong> (Continuous Integration)</td><td>Integra e testa o código automaticamente a cada commit</td></tr>
+        <tr><td><strong>CD</strong> (Continuous Delivery/Deployment)</td><td>Automatiza o empacotamento e a entrega/implantação em produção</td></tr>
+        <tr><td><strong>Pipeline</strong></td><td>Sequência automatizada de etapas: build → teste → deploy</td></tr>
+      </tbody>
+    </table></div>
+    <details class="qa"><summary><span class="q">Q1</span> Qual a diferença entre Continuous Delivery e Continuous Deployment?</summary>
+    <div class="body"><p><strong>Delivery</strong>: o código está sempre pronto para ir a produção, mas a liberação final é <strong>manual</strong>. <strong>Deployment</strong>: totalmente automatizado — todo commit que passa nos testes vai para produção <strong>sem intervenção humana</strong>.</p></div></details>
+  </section>
+
+  <!-- ================= 7.3 ARQUITETURA DE SOFTWARE ================= -->
+  <section id="ti3">
+    <div class="sec-tag">Bloco 7.3 · Conhecimentos específicos</div>
+    <h2 class="sec"><span class="ic">🏗️</span> Arquitetura de Software e Integração</h2>
+
+    <h3>1. REST × SOAP × GraphQL</h3>
+    <div class="tablewrap"><table>
+      <thead><tr><th></th><th>REST</th><th>SOAP</th><th>GraphQL</th></tr></thead>
+      <tbody>
+        <tr><td>Estilo</td><td>Arquitetural (recursos + verbos HTTP)</td><td>Protocolo rígido (envelope XML)</td><td>Linguagem de consulta sobre um único endpoint</td></tr>
+        <tr><td>Formato</td><td>JSON (geralmente)</td><td>XML obrigatório</td><td>JSON</td></tr>
+        <tr><td>Contrato</td><td>Informal (OpenAPI/Swagger opcional)</td><td>WSDL (formal e rígido)</td><td>Schema fortemente tipado</td></tr>
+        <tr><td>Ponto forte</td><td>Simplicidade, cacheável, amplamente adotado</td><td>Segurança/transação robustas (WS-Security), legado corporativo</td><td>Cliente pede exatamente os campos que precisa (evita over-fetching)</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>2. Comunicação síncrona × assíncrona e mensageria</h3>
+    <div class="callout def">
+      <div class="t">📘 Síncrono × Assíncrono</div>
+      <strong>Síncrono</strong>: o chamador espera a resposta antes de continuar (ex.: chamada REST tradicional). <strong>Assíncrono</strong>: o chamador dispara e segue em frente; a resposta/evento chega depois (ex.: fila de mensagens, webhooks, eventos).
+    </div>
+    <p>Mensageria (ex.: <strong>RabbitMQ</strong>) desacopla produtor e consumidor, absorve picos de carga e permite processamento em segundo plano — comum em arquiteturas orientadas a eventos.</p>
+
+    <h3>3. Monólito × arquitetura em camadas × microsserviços</h3>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Estilo</th><th>Vantagem</th><th>Desafio</th></tr></thead>
+      <tbody>
+        <tr><td>Monólito em camadas</td><td>Simples de desenvolver/implantar no início</td><td>Escala e evolui tudo junto; acoplamento cresce</td></tr>
+        <tr><td>Orientada a serviços (SOA)</td><td>Reuso de serviços de negócio</td><td>Barramento (ESB) pode virar gargalo/complexidade central</td></tr>
+        <tr><td>Microsserviços</td><td>Deploy independente, escala granular, times autônomos</td><td>Governança, observabilidade, consistência de dados distribuída (trade-off)</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout warn">
+      <div class="t">⚠️ Microsserviços não são "grátis"</div>
+      Trazem complexidade operacional (múltiplos deploys, service discovery, tracing distribuído) e problemas de consistência (transações distribuídas). Só compensam quando o ganho de escalabilidade/autonomia de times supera esse custo.
+    </div>
+    <p>Integração entre <strong>sistemas legados</strong> e arquiteturas modernas costuma usar um <strong>API Gateway</strong> ou camada anticorrupção, isolando o sistema novo das particularidades do legado.</p>
+  </section>
+
+  <!-- ================= 7.4 TECNOLOGIAS E PLATAFORMAS ================= -->
+  <section id="ti4">
+    <div class="sec-tag">Bloco 7.4 · Conhecimentos específicos</div>
+    <h2 class="sec"><span class="ic">🧰</span> Tecnologias de Desenvolvimento e Plataformas</h2>
+
+    <h3>1. Backend citado no edital</h3>
+    <div class="chips">
+      <span class="chip">PHP + Symfony</span><span class="chip">.NET Core</span><span class="chip">.NET Framework / WebForms</span>
+      <span class="chip">Node.js (APIs)</span><span class="chip">Go</span><span class="chip">WebServices XML (.NET)</span>
+    </div>
+    <p><strong>.NET Core</strong> é multiplataforma (Windows/Linux/macOS) e a evolução moderna; <strong>.NET Framework</strong> é o legado, só Windows; <strong>WebForms</strong> é um modelo antigo orientado a eventos/postback sobre .NET Framework. <strong>Node.js</strong> usa I/O não bloqueante (event loop) — bom para APIs com muita concorrência de I/O.</p>
+
+    <h3>2. Frontend citado no edital</h3>
+    <div class="chips">
+      <span class="chip">JavaScript / TypeScript</span><span class="chip">Angular</span><span class="chip">Vue.js</span>
+      <span class="chip">StimulusJS</span><span class="chip">Blazor</span>
+    </div>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Framework</th><th>Característica</th></tr></thead>
+      <tbody>
+        <tr><td>Angular</td><td>Framework completo (opinativo), TypeScript nativo, injeção de dependência</td></tr>
+        <tr><td>Vue.js</td><td>Progressivo/leve, curva de aprendizado suave, fácil de adotar aos poucos</td></tr>
+        <tr><td>StimulusJS</td><td>Minimalista — adiciona comportamento ao HTML existente sem "assumir" a página (bom para apps server-rendered)</td></tr>
+        <tr><td>Blazor</td><td>Roda C#/.NET no navegador (via WebAssembly) ou no servidor, sem precisar escrever JS</td></tr>
+      </tbody>
+    </table></div>
+    <p><strong>SPA</strong> (Single Page Application): uma única página HTML carregada, navegação via JS sem recarregar o servidor — atenção a acessibilidade e SEO/responsividade.</p>
+
+    <h3>3. Conteinerização e automação</h3>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Ferramenta</th><th>Papel</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Docker</strong></td><td>Empacota app + dependências em containers isolados e portáveis</td></tr>
+        <tr><td><strong>Docker Swarm</strong></td><td>Orquestração nativa do Docker (mais simples que Kubernetes)</td></tr>
+        <tr><td><strong>Kubernetes</strong></td><td>Orquestração de containers em larga escala: auto-scaling, self-healing, service discovery</td></tr>
+        <tr><td><strong>Ansible</strong></td><td>Infraestrutura como código, agentless (via SSH), playbooks em YAML</td></tr>
+        <tr><td><strong>GitLab</strong></td><td>Versionamento + CI/CD integrados na mesma plataforma</td></tr>
+        <tr><td><strong>RabbitMQ</strong></td><td>Broker de mensageria (filas, exchanges) para comunicação assíncrona</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <!-- ================= 7.5 BANCO DE DADOS ================= -->
+  <section id="ti5">
+    <div class="sec-tag">Bloco 7.5 · Conhecimentos específicos</div>
+    <h2 class="sec"><span class="ic">🗄️</span> Banco de Dados</h2>
+    <p class="lead">Bloco com maior chance de questão de <strong>cálculo/leitura de código SQL</strong> — treine ler e escrever consultas.</p>
+
+    <h3>1. Modelagem: conceitual → lógica → física</h3>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Nível</th><th>O que representa</th></tr></thead>
+      <tbody>
+        <tr><td>Conceitual</td><td>Modelo Entidade-Relacionamento (MER): entidades, atributos, relacionamentos — independente de SGBD</td></tr>
+        <tr><td>Lógico</td><td>Traduz para tabelas, chaves e cardinalidades (ainda independente do SGBD específico)</td></tr>
+        <tr><td>Físico</td><td>Implementação real: tipos de dado do SGBD, índices, particionamento</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout formula">
+      <div class="t">∑ Normalização</div>
+      <pre>1FN: elimina grupos repetitivos → cada célula tem valor atômico
+2FN: 1FN + elimina dependência parcial da chave (não composta parcialmente)
+3FN: 2FN + elimina dependência transitiva (atributo não-chave não depende de outro não-chave)</pre>
+    </div>
+    <p>Integridade: <strong>de domínio</strong> (valor válido para o tipo/coluna), <strong>de entidade/identidade</strong> (chave primária única e não nula), <strong>referencial</strong> (chave estrangeira aponta para um registro existente).</p>
+
+    <h3>2. ACID e persistência</h3>
+    <div class="callout formula">
+      <div class="t">∑ Propriedades ACID</div>
+      <pre>Atomicidade  → transação é tudo ou nada
+Consistência → transação leva o banco de um estado válido a outro
+Isolamento   → transações concorrentes não interferem entre si
+Durabilidade → após commit, o dado persiste mesmo com falha</pre>
+    </div>
+    <p><strong>Relacional</strong> (PostgreSQL, SQL Server): dados em tabelas, esquema rígido, forte consistência (ACID). <strong>Não relacional (NoSQL)</strong>: esquema flexível, modelos documento/chave-valor/grafo/coluna larga, prioriza escalabilidade horizontal (geralmente segue o modelo BASE em vez de ACID estrito).</p>
+
+    <h3>3. SQL — DDL, DML e SELECT</h3>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Categoria</th><th>Comandos</th></tr></thead>
+      <tbody>
+        <tr><td>DDL</td><td><code>CREATE</code>, <code>ALTER</code>, <code>DROP</code></td></tr>
+        <tr><td>DML (escrita)</td><td><code>INSERT</code>, <code>UPDATE</code>, <code>DELETE</code></td></tr>
+        <tr><td>DML (leitura)</td><td><code>SELECT</code></td></tr>
+      </tbody>
+    </table></div>
+    <div class="tablewrap"><table>
+      <thead><tr><th>JOIN</th><th>Retorna</th></tr></thead>
+      <tbody>
+        <tr><td>INNER JOIN</td><td>Só linhas com correspondência nas duas tabelas</td></tr>
+        <tr><td>LEFT JOIN</td><td>Todas da esquerda + correspondentes da direita (NULL se não houver)</td></tr>
+        <tr><td>RIGHT JOIN</td><td>Todas da direita + correspondentes da esquerda</td></tr>
+        <tr><td>FULL JOIN</td><td>Todas as linhas das duas tabelas, com NULL onde não casar</td></tr>
+      </tbody>
+    </table></div>
+    <pre>SELECT d.nome, COUNT(f.id) AS qtd_funcionarios
+FROM departamento d
+LEFT JOIN funcionario f ON f.dept_id = d.id
+WHERE d.ativo = TRUE
+GROUP BY d.nome
+HAVING COUNT(f.id) > 5;</pre>
+    <p class="small">Note: filtro sobre linhas individuais usa <code>WHERE</code>; filtro sobre o resultado agregado (depois do <code>GROUP BY</code>) usa <code>HAVING</code>.</p>
+    <details class="qa"><summary><span class="q">Q1</span> Diferença entre PRIMARY KEY e UNIQUE?</summary>
+    <div class="body"><p>Ambas garantem unicidade, mas <strong>PRIMARY KEY</strong> não aceita <code>NULL</code> e só pode existir uma por tabela (identifica o registro); <strong>UNIQUE</strong> aceita <code>NULL</code> (em geral um por coluna, dependendo do SGBD) e pode haver várias por tabela.</p></div></details>
+  </section>
+
+  <!-- ================= 7.6 DADOS, BI E ANALÍTICA ================= -->
+  <section id="ti6">
+    <div class="sec-tag">Bloco 7.6 · Conhecimentos específicos</div>
+    <h2 class="sec"><span class="ic">📊</span> Dados, BI e Analítica Aplicada ao Negócio</h2>
+
+    <h3>1. Data Warehouse, Data Lake e Lakehouse</h3>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Conceito</th><th>Característica</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Data Warehouse</strong></td><td>Dados estruturados, modelados (esquema estrela/floco de neve), otimizado para consultas analíticas históricas</td></tr>
+        <tr><td><strong>Data Lake</strong></td><td>Armazena dados brutos, estruturados e não estruturados, em qualquer formato — esquema aplicado só na leitura (schema-on-read)</td></tr>
+        <tr><td><strong>Lakehouse</strong></td><td>Combina a flexibilidade do lake com governança/performance de consulta do warehouse</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>2. ETL e ferramentas de BI</h3>
+    <p><strong>ETL</strong> = <em>Extract, Transform, Load</em>: extrai dados de fontes variadas, transforma (limpeza, padronização, enriquecimento) e carrega no destino analítico. Ferramentas de BI citadas no edital: <strong>Power BI</strong> e <strong>Looker Studio</strong> — usadas para painéis, relatórios e "governança semântica" (um modelo de dados único e consistente para todo o consumo gerencial).</p>
+    <div class="callout tip">
+      <div class="t">💡 Storytelling com dados</div>
+      Não basta gerar o gráfico certo — o indicador deve responder a uma pergunta de negócio clara e vir com contexto (comparação, tendência, meta) para orientar decisão.
+    </div>
+  </section>
+
+  <!-- ================= 7.7 TÓPICOS ESPECIAIS ================= -->
+  <section id="ti7">
+    <div class="sec-tag">Bloco 7.7 · Conhecimentos específicos</div>
+    <h2 class="sec"><span class="ic">🧭</span> Tópicos Especiais</h2>
+
+    <h3>1. LGPD aplicada a sistemas</h3>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Termo</th><th>Significado</th></tr></thead>
+      <tbody>
+        <tr><td>Titular</td><td>Pessoa natural a quem os dados se referem</td></tr>
+        <tr><td>Controlador</td><td>Decide sobre o tratamento dos dados</td></tr>
+        <tr><td>Operador</td><td>Realiza o tratamento em nome do controlador</td></tr>
+        <tr><td>Bases legais</td><td>Consentimento, cumprimento de obrigação legal, execução de contrato, exercício regular de direitos, interesse legítimo, entre outras</td></tr>
+      </tbody>
+    </table></div>
+    <p>Na prática de sistemas: minimização de dados coletados, anonimização/pseudonimização quando possível, controle de acesso a dados pessoais e registro de tratamento (auditoria).</p>
+
+    <h3>2. Gestão e fiscalização de contratos de TI</h3>
+    <p>O <strong>fiscal de contrato</strong> acompanha execução, prazos, entregas e qualidade; a <strong>gestão de riscos</strong> antecipa problemas (atraso, descumprimento de SLA); a <strong>medição</strong> valida o que foi entregue antes do pagamento. Tudo isso deve seguir o rito da <strong>Lei 14.133/2021</strong> para contratação de bens e serviços de TI.</p>
+
+    <h3>3. IA generativa e LLMs</h3>
+    <div class="callout def">
+      <div class="t">📘 LLM (Large Language Model)</div>
+      Modelo estatístico treinado em grandes volumes de texto para prever a próxima palavra/token, permitindo gerar texto, resumir, traduzir, programar etc. Não "entende" no sentido humano — trabalha por probabilidade sobre padrões aprendidos.
+    </div>
+    <div class="callout warn">
+      <div class="t">⚠️ Riscos em ambiente corporativo</div>
+      <ul style="margin-bottom:0">
+        <li><strong>Alucinação</strong>: o modelo gera informação plausível, porém falsa.</li>
+        <li><strong>Viés</strong>: reproduz padrões/preconceitos presentes nos dados de treino.</li>
+        <li><strong>Vazamento de dados</strong>: informação sensível enviada ao modelo pode ser exposta ou usada em treinamento futuro (dependendo do provedor/contrato).</li>
+        <li><strong>Uso inadequado</strong>: confiar cegamente na saída sem revisão humana em decisões críticas.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ===== CHECKLIST ===== -->
+  <section id="checklist">
+    <div class="sec-tag">Fechamento</div>
+    <h2 class="sec"><span class="ic">✓</span> Checklist da véspera</h2>
+    <ul class="checklist">
+      <li>Revisei crase, regência e classes de palavras (Português).</li>
+      <li>Sei negar proposições com "e"/"ou"/"se...então" e aplicar De Morgan.</li>
+      <li>Decorei fórmulas de juros simples/compostos e regra de três.</li>
+      <li>Sei os princípios do art. 37 da CF (LIMPE) e os poderes da Administração.</li>
+      <li>Revisei PPA × LDO × LOA e as ferramentas SWOT/GUT/PDCA.</li>
+      <li>Sei distinguir Lei Orgânica × Estatuto × Código de Ética × Decreto 19.930/2021.</li>
+      <li>Domino OWASP Top 10, hash × criptografia, OAuth2/OIDC/JWT.</li>
+      <li>Sei diferenciar Scrum × Kanban e os diagramas UML (casos de uso, classes, sequência).</li>
+      <li>Domino REST × SOAP × GraphQL e monólito × microsserviços.</li>
+      <li>Consigo ler/escrever um SELECT com JOIN, WHERE, GROUP BY e HAVING.</li>
+      <li>Sei normalização (1FN/2FN/3FN) e as propriedades ACID.</li>
+      <li>Revisei LGPD (controlador/operador/bases legais) e riscos de LLMs.</li>
+    </ul>
+  </section>
+
+  </main>
+</div>
+
+<button class="backtop" id="backtop" aria-label="Voltar ao topo">↑</button>
+
+<script>
+  var root=document.documentElement, tb=document.getElementById('themeBtn');
+  function setTheme(t){root.setAttribute('data-theme',t); try{localStorage.setItem('ti-vitoria-theme',t)}catch(e){} tb.textContent=(t==='dark'?'☀️ Tema':'🌙 Tema');}
+  try{setTheme(localStorage.getItem('ti-vitoria-theme')|| (matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'));}catch(e){setTheme('light');}
+  tb.onclick=function(){setTheme(root.getAttribute('data-theme')==='dark'?'light':'dark');};
+
+  var sb=document.getElementById('sidebar'), mb=document.getElementById('menuBtn');
+  mb.onclick=function(){sb.classList.toggle('open');};
+  document.querySelectorAll('#toc a').forEach(function(a){a.addEventListener('click',function(){if(window.innerWidth<=920)sb.classList.remove('open');});});
+
+  var eb=document.getElementById('expandBtn'), allOpen=false;
+  eb.onclick=function(){allOpen=!allOpen; document.querySelectorAll('details.qa').forEach(function(d){d.open=allOpen;}); eb.textContent=allOpen?'▣ Recolher tudo':'▣ Expandir tudo';};
+
+  var secs=[].slice.call(document.querySelectorAll('main section'));
+  var links={}; document.querySelectorAll('#toc a').forEach(function(a){links[a.getAttribute('href').slice(1)]=a;});
+  var prog=document.getElementById('progress'), bt=document.getElementById('backtop');
+  function onScroll(){
+    var st=window.scrollY||document.documentElement.scrollTop;
+    var h=document.documentElement.scrollHeight-window.innerHeight;
+    prog.style.width=(h>0?(st/h*100):0)+'%';
+    bt.classList.toggle('show', st>500);
+    var cur=null;
+    secs.forEach(function(s){ if(s.getBoundingClientRect().top<=120) cur=s.id; });
+    Object.keys(links).forEach(function(k){links[k].classList.toggle('active',k===cur);});
+  }
+  document.addEventListener('scroll',onScroll,{passive:true}); onScroll();
+  bt.onclick=function(){window.scrollTo({top:0,behavior:'smooth'});};
+
+  var ns=document.getElementById('navSearch');
+  ns.addEventListener('input',function(){
+    var q=ns.value.toLowerCase();
+    document.querySelectorAll('#toc a').forEach(function(a){
+      a.style.display=a.textContent.toLowerCase().indexOf(q)>=0?'':'none';
+    });
+  });
+</script>
+</body>
+</html>
